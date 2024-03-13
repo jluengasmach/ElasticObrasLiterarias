@@ -27,10 +27,32 @@ public class ObraLiterariaServiceImpl implements ObraLiterariaService {
     }
 
     @Override
-    public List<ObraLiterariaDTO> getAll() {
+    public List<ObraLiterariaDTO> getAll(String author, String title) {
+        List<ObraLiteraria> obrasLiterarias;
         ModelMapper mapper = new ModelMapper();
-        List<ObraLiteraria> obrasLiterarias = repository.findAll();
 
+        if (author != null) {
+            obrasLiterarias = getByAuthor(author);
+        } else if (title != null) {
+            obrasLiterarias = repository.findByTitle(title);
+        } else {
+            obrasLiterarias = repository.findAll();
+        }
         return obrasLiterarias.stream().map(e -> mapper.map(e, ObraLiterariaDTO.class)).toList();
     }
+
+    @Override
+    public List<ObraLiterariaDTO> getTopFiveByPages() {
+        List<ObraLiteraria> obrasLiterarias = repository.findTop5ByOrderByCantidadPaginasDesc();
+        return obrasLiterarias.stream().map(e -> new ModelMapper().map(e, ObraLiterariaDTO.class)).toList();
+    }
+
+    private List<ObraLiteraria> getByAuthor(String author) {
+        return repository.findByAuthor(author);
+    }
+
+    private List<ObraLiteraria> getByTitle(String title) {
+        return repository.findByTitle(title);
+    }
+
 }

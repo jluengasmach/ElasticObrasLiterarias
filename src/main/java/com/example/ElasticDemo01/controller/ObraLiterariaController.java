@@ -23,7 +23,12 @@ public class ObraLiterariaController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAll(){
-        return new ResponseEntity<>(service.getAll(),HttpStatus.OK);
+    public ResponseEntity<?> getAll(@RequestParam(required = false) String author, @RequestParam(required = false) String title) {
+        return new ResponseEntity<>(service.getAll(author, title),HttpStatus.OK);
+    }
+
+    @GetMapping("/top-five")
+    public ResponseEntity<?> getTopFiveByPages() {
+        return new ResponseEntity<>(service.getTopFiveByPages(), HttpStatus.OK);
     }
 }

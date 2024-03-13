@@ -9,5 +9,7 @@ public interface ObraLiterariaService {
 
     ResponseDto saveBook(ObraLiterariaDTO bookDTO);
 
-    List<ObraLiterariaDTO> getAll();
+    List<ObraLiterariaDTO> getAll(String author, String title);
+
+    List<ObraLiterariaDTO> getTopFiveByPages();
 }
